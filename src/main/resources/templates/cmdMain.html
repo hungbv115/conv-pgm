@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AS400 Demo Screen</title>
+    <link rel="stylesheet" th:href="@{/css/terminal.css}">
+</head>
+<body>
+
+<div class="terminal-screen">
+    <!-- Khu vực thông tin hệ thống -->
+    <div class="terminal-header">
+        <div class="terminal-header__block">
+            <span th:text="${systemName}">AS400 DEMO SYSTEM</span>
+        </div>
+        <div class="terminal-header__block">
+            <span>User: </span><span th:text="${userName}">DEMOUSER</span>
+            <span>  Time: </span><span th:text="${serverTime}">2026-03-07 21:00:00</span>
+        </div>
+    </div>
+
+    <!-- Log kết quả ở giữa -->
+    <div class="terminal-log" role="log" aria-live="polite">
+        <div th:if="${#lists.isEmpty(logLines)}"
+             class="terminal-log-line terminal-log--empty">
+            * No commands executed yet. Type a command below.
+        </div>
+
+        <pre th:each="line : ${logLines}"
+             class="terminal-log-line"
+             th:text="${line}">Sample log line</pre>
+    </div>
+
+    <!-- Thông báo kết quả mới nhất -->
+    <div class="terminal-status-line" th:if="${resultMessage != null}">
+        LAST: <span th:text="${resultMessage}">Executed: "SAMPLE" at 12:00:00</span>
+    </div>
+
+    <!-- Dòng lệnh dưới cùng -->
+    <form class="terminal-command"
+          th:action="@{/cmd}"
+          method="post">
+        <span class="terminal-command__prompt">===&gt;</span>
+        <input id="commandInput"
+               name="command"
+               type="text"
+               autocomplete="off"
+               class="terminal-command__input"
+               th:value="${lastCommand}"
+               />
+        <button type="submit" class="terminal-command__button">Enter</button>
+    </form>
+</div>
+
+<script th:src="@{/js/cmdMain.js}"></script>
+
+</body>
+</html>
+
+

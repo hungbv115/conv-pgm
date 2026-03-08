@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${programName}">PROGRAM A</title>
+    <link rel="stylesheet" th:href="@{/css/terminal.css}">
+</head>
+<body>
+
+<div class="terminal-screen">
+    <div class="terminal-header">
+        <div class="terminal-header__block">
+            <span th:text="${programName}">PROGRAM A</span>
+        </div>
+        <div class="terminal-header__block">
+            <span>Function: DEMO BUSINESS LOGIC</span>
+        </div>
+    </div>
+
+    <div class="terminal-log" role="log" aria-live="polite">
+        <pre th:each="line : ${programLines}"
+             class="terminal-log-line"
+             th:text="${line}">Sample program line</pre>
+    </div>
+
+    <div class="terminal-status-line">
+        F3=Exit
+    </div>
+
+    <form class="terminal-command"
+          th:action="@{/pgmA/exit}"
+          method="post">
+        <span class="terminal-command__prompt">F3==&gt;</span>
+        <button type="submit" class="terminal-command__button">Exit to CMD</button>
+    </form>
+</div>
+
+</body>
+</html>
+
+

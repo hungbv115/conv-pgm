@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #00ff00;
+    font-family: "Courier New", Consolas, Menlo, Monaco, monospace;
+}
+
+.terminal-screen {
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #00aa00;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.terminal-header__block {
+    white-space: pre;
+}
+
+.terminal-log {
+    flex: 1;
+    border: 1px solid #00aa00;
+    margin: 4px 0;
+    padding: 4px 8px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.terminal-log-line {
+    margin: 0;
+    white-space: pre;
+}
+
+.terminal-log--empty {
+    opacity: 0.6;
+}
+
+.terminal-command {
+    border-top: 1px solid #00aa00;
+    padding-top: 4px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.terminal-command__prompt {
+    white-space: pre;
+}
+
+.terminal-command__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #00ff00;
+    font: inherit;
+}
+
+.terminal-command__button {
+    background-color: #00ff00;
+    color: #000000;
+    border: none;
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.terminal-command__button:hover {
+    background-color: #55ff55;
+}
+
+.terminal-status-line {
+    font-size: 12px;
+    margin-top: 2px;
+    opacity: 0.8;
+}
+
+

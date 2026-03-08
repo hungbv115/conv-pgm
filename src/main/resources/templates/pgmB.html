@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${programName}">PROGRAM B</title>
+    <link rel="stylesheet" th:href="@{/css/terminal.css}">
+</head>
+<body>
+
+<div class="terminal-screen">
+    <div class="terminal-header">
+        <div class="terminal-header__block">
+            <span th:text="${programName}">PROGRAM B</span>
+        </div>
+        <div class="terminal-header__block">
+            <span>Function: CUSTOMER INPUT</span>
+        </div>
+    </div>
+
+    <div class="terminal-log" role="log" aria-live="polite">
+        <pre th:each="line : ${programLines}"
+             class="terminal-log-line"
+             th:text="${line}">Sample program line</pre>
+    </div>
+
+    <form id="pgmBForm"
+          class="terminal-command"
+          th:action="@{/pgmB}"
+          method="post"
+          style="margin-top: 4px; flex-direction: column; align-items: flex-start; gap: 4px;">
+        <input type="hidden" name="from" th:value="${from}" />
+        <input type="hidden" name="orderId" th:value="${orderId}" />
+        <div>
+            CUST ID . . . . . . . . : 
+            <input type="text"
+                   name="customerId"
+                   th:value="${customerId}"
+                   class="terminal-command__input"
+                   style="max-width: 200px;">
+        </div>
+        <div>
+            CUST NAME . . . . . . . : 
+            <input type="text"
+                   name="customerName"
+                   th:value="${customerName}"
+                   class="terminal-command__input"
+                   style="max-width: 260px;">
+        </div>
+        <div>
+            NOTE . . . . . . . . . : 
+            <input type="text"
+                   name="note"
+                   th:value="${note}"
+                   class="terminal-command__input"
+                   style="max-width: 320px;">
+        </div>
+        <div style="margin-top: 4px;">
+            F9=Process   F3=Exit
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 2px;">
+            <button type="submit" class="terminal-command__button">F9 Process</button>
+        </div>
+    </form>
+
+    <form id="pgmBExitForm"
+          class="terminal-command"
+          th:action="@{/pgmB/exit}"
+          method="post"
+          style="margin-top: 4px;">
+        <input type="hidden" name="from" th:value="${from}" />
+        <input type="hidden" name="orderId" th:value="${orderId}" />
+        <span class="terminal-command__prompt">F3==&gt;</span>
+        <button type="submit" class="terminal-command__button">Exit to CMD</button>
+    </form>
+    </div>
+
+<script th:src="@{/js/pgmB.js}"></script>
+
+</body>
+</html>
+
+

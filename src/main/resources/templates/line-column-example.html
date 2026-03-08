@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Line / Column Demo</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<div class="page">
+    <header class="page-header">
+        <h1 class="page-header__title">Line / Column Demo</h1>
+        <p class="page-header__subtitle">
+            Ví dụ sử dụng custom Thymeleaf attribute <code>th:lineNum</code> và <code>th:columnNum</code>.
+        </p>
+    </header>
+
+    <main class="page-main">
+        <section class="items">
+            <div class="items__header">
+                <div># Line</div>
+                <div># Column</div>
+                <div>Tên item</div>
+            </div>
+
+            <div th:each="item, iterStat : ${items}"
+                 th:lineNum="${iterStat.count}"
+                 th:columnNum="${iterStat.index}"
+                 class="item-row">
+                <div class="item-row__cell item-row__cell--muted"
+                     th:text="${iterStat.count}">1</div>
+                <div class="item-row__cell item-row__cell--muted"
+                     th:text="${iterStat.index}">0</div>
+                <div class="item-row__cell item-row__cell--name"
+                     th:text="${item}">Item name</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        Frontend dùng Thymeleaf + custom dialect, JS ở <code>/js/line-column.js</code>.
+    </footer>
+</div>
+
+<script th:src="@{/js/line-column.js}"></script>
+
+</body>
+</html>
+
