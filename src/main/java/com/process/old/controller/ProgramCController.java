@@ -2,6 +2,8 @@ package com.process.old.controller;
 
 import com.process.old.service.ProgramCProcessResult;
 import com.process.old.service.ProgramCService;
+import com.process.old.service.ScreenLogService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +18,11 @@ public class ProgramCController {
 
     private final ProgramCService programCService;
 
-    public ProgramCController(ProgramCService programCService) {
+    private final ScreenLogService screenLogService;
+
+    public ProgramCController(ProgramCService programCService, ScreenLogService screenLogService) {
         this.programCService = programCService;
+        this.screenLogService = screenLogService;
     }
 
     @GetMapping("/pgmC")
@@ -34,9 +39,11 @@ public class ProgramCController {
             @RequestParam(name = "orderId", required = false) String orderId,
             @RequestParam(name = "customerId", required = false) String customerId,
             @RequestParam(name = "customerName", required = false) String customerName,
-            @RequestParam(name = "note", required = false) String note) {
+            @RequestParam(name = "note", required = false) String note, HttpSession session) {
 
         ProgramCProcessResult result = programCService.process(orderId, customerId, customerName, note);
+        List<String> lines = screenLogService.getOrCreateLog(session, ScreenLogService.SCREEN_PGM_C);
+        lines.addAll(result.getLines());
 
         // Nếu service yêu cầu chuyển sang màn Program B thì controller sẽ điều hướng
         if (result.isGoToProgramB()) {
@@ -60,7 +67,7 @@ public class ProgramCController {
 
         // Ngược lại, hiển thị lại màn C với các dòng log từ DTO
         ModelAndView mav = new ModelAndView("pgmC");
-        mav.addObject("programLines", result.getLines());
+        mav.addObject("programLines", lines);
         mav.addObject("programName", "PROGRAM C");
 
         mav.addObject("orderId", orderId);
@@ -81,9 +88,10 @@ public class ProgramCController {
             @RequestParam(name = "orderId", required = false) String orderId,
             @RequestParam(name = "customerId", required = false) String customerId,
             @RequestParam(name = "customerName", required = false) String customerName,
-            @RequestParam(name = "note", required = false) String note) {
+            @RequestParam(name = "note", required = false) String note, HttpSession session) {
 
-        List<String> lines = programCService.medAfterRun(orderId, customerId, customerName, note);
+        List<String> lines = screenLogService.getOrCreateLog(session, ScreenLogService.SCREEN_PGM_C);
+        lines.addAll(programCService.medAfterRun(orderId, customerId, customerName, note));
         ModelAndView mav = new ModelAndView("pgmC");
         mav.addObject("programLines", lines);
         mav.addObject("programName", "PROGRAM C");
@@ -97,7 +105,8 @@ public class ProgramCController {
     }
 
     @PostMapping("/pgmC/exit")
-    public ModelAndView exitProgramC(RedirectAttributes redirectAttributes) {
+    public ModelAndView exitProgramC(RedirectAttributes redirectAttributes, HttpSession session) {
+        screenLogService.removeLog(session, ScreenLogService.SCREEN_PGM_C);
         redirectAttributes.addFlashAttribute("resultMessage", "Returned from Program C.");
         return new ModelAndView("redirect:/cmd");
     }

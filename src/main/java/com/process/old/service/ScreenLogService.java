@@ -12,6 +12,7 @@ public interface ScreenLogService {
     String SCREEN_CMD_MAIN = "CMD_MAIN";
     String SCREEN_PGM_A = "PGM_A";
     String SCREEN_PGM_B = "PGM_B";
+    String SCREEN_PGM_C = "PGM_C";
 
     /**
      * Lấy (hoặc tạo mới) danh sách log cho một màn hình.
